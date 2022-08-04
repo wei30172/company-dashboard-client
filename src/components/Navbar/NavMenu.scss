@@ -1,0 +1,14 @@
+@use "../../styles/mixin/colors" as colors;
+@use "../../styles/mixin/screens" as screens;
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  .navbar_menu_item {
+    color: colors.$white;
+    padding: 0 1rem;
+    &.navbar_menu_item-active {
+      border-bottom: 2px solid colors.$white;
+    }
+  }
+}
