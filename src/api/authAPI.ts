@@ -14,13 +14,9 @@ export const login = async (authPayloadValues: AuthPayloadValues) => {
 };
 
 export const signup = async (authPayloadValues: AuthPayloadValues) => {
-  const { data } = await api.post(
-    "/signup",
-    JSON.stringify(authPayloadValues),
-    {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    },
-  );
+  const { data } = await api.post("/signup", JSON.stringify(authPayloadValues), {
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+  });
   return data;
 };

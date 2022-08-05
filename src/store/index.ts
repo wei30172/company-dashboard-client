@@ -10,10 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 let middleware;
 
-middleware =
-  process.env.NODE_ENV === "development"
-    ? new MiddlewareArray().concat(sagaMiddleware, logger)
-    : new MiddlewareArray().concat(sagaMiddleware);
+middleware = process.env.NODE_ENV === "development" ? new MiddlewareArray().concat(sagaMiddleware, logger) : new MiddlewareArray().concat(sagaMiddleware);
 
 // Mount it on the Store
 const store = configureStore({

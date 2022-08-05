@@ -36,8 +36,7 @@ const Login = ({ token, isLoading, loginRequest }: PropsFromRedux) => {
     {
       id: 2,
       label: "Password",
-      errorMessage:
-        "Password should be 6-20 characters and include at least 1 letter, 1 number and 1 special character!",
+      errorMessage: "Password should be 6-20 characters and include at least 1 letter, 1 number and 1 special character!",
       name: "password",
       type: "password",
       placeholder: "Password",
@@ -77,38 +76,22 @@ const Login = ({ token, isLoading, loginRequest }: PropsFromRedux) => {
       <div className="login_form">
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
-          {formInputs.map(
-            ({ id, name, label, errorMessage, ...inputProps }) => (
-              <div key={id} className="form-input">
-                <label>{label}</label>
-                <br />
-                <InputWrapper
-                  {...inputProps}
-                  name={name}
-                  value={userInputs[name as keyof AuthPayloadValues]}
-                  handleChange={handleChange}
-                />
-                <p data-testid={`error-${name}`}>
-                  <ErrorIcon />
-                  {errorMessage}
-                </p>
-              </div>
-            ),
-          )}
-          <ButtonWrapper
-            disabled={!userInputs.email || !userInputs.password}
-            className="btn"
-            type="submit"
-            title="LOGIN"
-          />
+          {formInputs.map(({ id, name, label, errorMessage, ...inputProps }) => (
+            <div key={id} className="form-input">
+              <label>{label}</label>
+              <br />
+              <InputWrapper {...inputProps} name={name} value={userInputs[name as keyof AuthPayloadValues]} handleChange={handleChange} />
+              <p data-testid={`error-${name}`}>
+                <ErrorIcon />
+                {errorMessage}
+              </p>
+            </div>
+          ))}
+          <ButtonWrapper disabled={!userInputs.email || !userInputs.password} className="btn" type="submit" title="LOGIN" />
         </form>
         <div className="login_form_link flex">
           <p>Do not have an account?</p>
-          <ButtonWrapper
-            className="cursor-pointer"
-            title="Signup"
-            onClick={() => navigate("/signup")}
-          />
+          <ButtonWrapper className="cursor-pointer" title="Signup" onClick={() => navigate("/signup")} />
         </div>
       </div>
     </div>

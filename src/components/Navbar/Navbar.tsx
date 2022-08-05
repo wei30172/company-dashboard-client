@@ -49,15 +49,8 @@ const Navbar = ({ token, logoutRequest }: PropsFromRedux) => {
         </ul>
 
         {/* hamburger */}
-        <div
-          onClick={() => setShowMobMenu(!showMobMenu)}
-          className="navbar_hamburger"
-        >
-          {!showMobMenu ? (
-            <MenuIcon className="cursor-pointer" />
-          ) : (
-            <CloseIcon className="cursor-pointer" />
-          )}
+        <div onClick={() => setShowMobMenu(!showMobMenu)} className="navbar_hamburger">
+          {!showMobMenu ? <MenuIcon className="cursor-pointer" /> : <CloseIcon className="cursor-pointer" />}
         </div>
 
         {/* switch mode */}

@@ -1,12 +1,4 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAILURE,
-  LOGOUT_REQUEST,
-} from "./actionTypes";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST } from "./actionTypes";
 
 export interface AuthPayloadValues {
   firstName: string;
@@ -64,11 +56,4 @@ export interface LogoutRequest {
   type: typeof LOGOUT_REQUEST;
 }
 
-export type AuthActions =
-  | LoginRequest
-  | LoginSuccess
-  | LoginFailure
-  | SignupRequest
-  | SignupSuccess
-  | SignupFailure
-  | LogoutRequest;
+export type AuthActions = LoginRequest | LoginSuccess | LoginFailure | SignupRequest | SignupSuccess | SignupFailure | LogoutRequest;

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useContext,
-  createContext,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useState, useContext, createContext, Dispatch, SetStateAction } from "react";
 
 interface ModeContextProps {
   darkMode: boolean;
@@ -31,8 +25,7 @@ export const ModeProvider: React.FC<Props> = ({ children }) => {
       value={{
         darkMode,
         setDarkMode,
-      }}
-    >
+      }}>
       {children}
     </ModeContext.Provider>
   );

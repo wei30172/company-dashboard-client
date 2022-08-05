@@ -16,13 +16,7 @@ const NavMenu = ({ menuItems }: Props) => {
       <ul>
         {menuItems.map((item) => (
           <li key={item.href}>
-            <Link
-              to={item.href}
-              role="navigation"
-              className={`navbar_menu_item cursor-pointer ${
-                slug.pathname === item.href && "navbar_menu_item-active"
-              }`}
-            >
+            <Link to={item.href} role="navigation" className={`navbar_menu_item cursor-pointer ${slug.pathname === item.href && "navbar_menu_item-active"}`}>
               {item.name}
             </Link>
           </li>

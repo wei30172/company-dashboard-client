@@ -25,8 +25,7 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
     {
       id: 1,
       label: "first Name",
-      errorMessage:
-        "FirstName should be 2-16 characters and shouldn't include any special character!",
+      errorMessage: "FirstName should be 2-16 characters and shouldn't include any special character!",
       name: "firstName",
       type: "text",
       placeholder: "First Name",
@@ -36,8 +35,7 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
     {
       id: 2,
       label: "last Name",
-      errorMessage:
-        "LastName should be 2-16 characters and shouldn't include any special character!",
+      errorMessage: "LastName should be 2-16 characters and shouldn't include any special character!",
       name: "lastName",
       type: "text",
       placeholder: "Last Name",
@@ -57,8 +55,7 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
     {
       id: 4,
       label: "Password",
-      errorMessage:
-        "Password should be 6-20 characters and include at least 1 letter, 1 number and 1 special character!",
+      errorMessage: "Password should be 6-20 characters and include at least 1 letter, 1 number and 1 special character!",
       name: "password",
       type: "password",
       placeholder: "Password",
@@ -108,32 +105,19 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
       <div className="signup_form">
         <h2>Signup</h2>
         <form onSubmit={handleSignup}>
-          {formInputs.map(
-            ({ id, name, label, errorMessage, ...inputProps }) => (
-              <div key={id} className="form-input">
-                <label>{label}</label>
-                <br />
-                <InputWrapper
-                  {...inputProps}
-                  name={name}
-                  value={userInputs[name as keyof AuthPayloadValues]}
-                  handleChange={handleChange}
-                />
-                <p data-testid={`error-${name}`}>
-                  <ErrorIcon />
-                  {errorMessage}
-                </p>
-              </div>
-            ),
-          )}
+          {formInputs.map(({ id, name, label, errorMessage, ...inputProps }) => (
+            <div key={id} className="form-input">
+              <label>{label}</label>
+              <br />
+              <InputWrapper {...inputProps} name={name} value={userInputs[name as keyof AuthPayloadValues]} handleChange={handleChange} />
+              <p data-testid={`error-${name}`}>
+                <ErrorIcon />
+                {errorMessage}
+              </p>
+            </div>
+          ))}
           <ButtonWrapper
-            disabled={
-              !userInputs.firstName ||
-              !userInputs.lastName ||
-              !userInputs.email ||
-              !userInputs.password ||
-              !userInputs.confirmPassword
-            }
+            disabled={!userInputs.firstName || !userInputs.lastName || !userInputs.email || !userInputs.password || !userInputs.confirmPassword}
             className="btn"
             type="submit"
             title="REGISTER"
@@ -141,11 +125,7 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
         </form>
         <div className="signup_form_link flex">
           <p>Already have an account?</p>
-          <ButtonWrapper
-            className="cursor-pointer"
-            title="Login"
-            onClick={() => navigate("/login")}
-          />
+          <ButtonWrapper className="cursor-pointer" title="Login" onClick={() => navigate("/login")} />
         </div>
       </div>
     </div>

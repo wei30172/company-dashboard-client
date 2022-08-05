@@ -1,25 +1,6 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAILURE,
-  LOGOUT_REQUEST,
-} from "./actionTypes";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST } from "./actionTypes";
 
-import {
-  AuthPayload,
-  AuthSuccessPayload,
-  AuthFailurePayload,
-  LoginRequest,
-  LoginSuccess,
-  LoginFailure,
-  SignupRequest,
-  SignupSuccess,
-  SignupFailure,
-  LogoutRequest,
-} from "./types";
+import { AuthPayload, AuthSuccessPayload, AuthFailurePayload, LoginRequest, LoginSuccess, LoginFailure, SignupRequest, SignupSuccess, SignupFailure, LogoutRequest } from "./types";
 
 export const loginRequest = (payload: AuthPayload): LoginRequest => ({
   type: LOGIN_REQUEST,

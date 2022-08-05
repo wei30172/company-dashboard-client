@@ -1,27 +1,16 @@
 import { login, signup } from "../../api/authAPI";
 import { all, call, put, takeLatest } from "redux-saga/effects";
-import {
-  loginSuccess,
-  loginFailure,
-  signupSuccess,
-  signupFailure,
-} from "./actions";
+import { loginSuccess, loginFailure, signupSuccess, signupFailure } from "./actions";
 import { LOGIN_REQUEST, SIGNUP_REQUEST } from "./actionTypes";
 import { AuthPayloadValues } from "./types";
 import { toast } from "react-hot-toast";
 
-const userLogin = async (payload: {
-  values: AuthPayloadValues;
-  callback: () => void;
-}) => {
+const userLogin = async (payload: { values: AuthPayloadValues; callback: () => void }) => {
   const res = await login(payload.values);
   return res;
 };
 
-const userSignup = async (payload: {
-  values: AuthPayloadValues;
-  callback: () => void;
-}) => {
+const userSignup = async (payload: { values: AuthPayloadValues; callback: () => void }) => {
   const res = await signup(payload.values);
   return res;
 };
