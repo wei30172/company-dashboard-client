@@ -1,6 +1,6 @@
 ## Company Dashboard Template
 
-A dashboard template, built with React, TypeScript, and Sass.
+A dashboard client template, built with React, TypeScript, and Sass.
 
 ## Project Screenshots
 
