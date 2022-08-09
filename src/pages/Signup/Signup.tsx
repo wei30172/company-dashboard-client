@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PropsFromRedux, authConnector } from "../../store/auth/connector";
 import { InputWrapper, ButtonWrapper } from "../../components";
-import { AuthPayloadValues } from "../../store/auth/types";
+import { SignupPayloadValues } from "../../store/auth/types";
 import "../Login/Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ErrorIcon from "@material-ui/icons/Error";
 
-const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
+const Signup = ({ accessToken, isLoading, signupRequest }: PropsFromRedux) => {
   const navigate = useNavigate();
-  const [userInputs, setUserInputs] = useState<AuthPayloadValues>({
+  const [userInputs, setUserInputs] = useState<SignupPayloadValues>({
     firstName: "",
     lastName: "",
     email: "",
@@ -18,8 +18,8 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
   });
 
   useEffect(() => {
-    if (token) navigate("/");
-  }, [token, navigate]);
+    if (accessToken) navigate("/");
+  }, [accessToken, navigate]);
 
   const formInputs = [
     {
@@ -75,15 +75,8 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
     },
   ];
 
-  const callback = (res: IAuth) => {
-    const auth: IAuth = {
-      result: {
-        name: res.result.name,
-        email: res.result.email,
-      },
-      token: res.token,
-    };
-    localStorage.setItem("auth", JSON.stringify(auth));
+  const callback = (res: IUser) => {
+    navigate("/login");
   };
 
   const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
@@ -109,7 +102,7 @@ const Signup = ({ token, isLoading, signupRequest }: PropsFromRedux) => {
             <div key={id} className="form-input">
               <label>{label}</label>
               <br />
-              <InputWrapper {...inputProps} name={name} value={userInputs[name as keyof AuthPayloadValues]} handleChange={handleChange} />
+              <InputWrapper {...inputProps} name={name} value={userInputs[name as keyof SignupPayloadValues]} handleChange={handleChange} />
               <p data-testid={`error-${name}`}>
                 <ErrorIcon />
                 {errorMessage}

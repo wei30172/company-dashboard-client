@@ -6,7 +6,7 @@ interface StateProps {
 }
 const mapState = (state: StateProps) => ({
   user: state.auth.user,
-  token: state.auth.token,
+  accessToken: state.auth.accessToken,
   isLoading: state.auth.isLoading,
   error: state.auth.error,
 });

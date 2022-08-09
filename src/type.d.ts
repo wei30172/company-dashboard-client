@@ -1,17 +1,18 @@
 // Auth
 interface AuthState {
-  user: string;
-  token: string;
+  user: IUser;
+  accessToken: string;
   isLoading: boolean;
   error: string;
 }
 
 interface IUser {
   name: string;
+  role: string;
   email: string;
 }
 
 interface IAuth {
-  result: IUser;
-  token: string;
+  user: IUser;
+  accessToken: string;
 }

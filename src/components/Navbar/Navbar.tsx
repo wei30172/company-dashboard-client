@@ -7,7 +7,7 @@ import { SwitchMode, NavMenu } from "../index";
 import logo from "../../assets/logo.svg";
 import "./Navbar.scss";
 
-const Navbar = ({ token, logoutRequest }: PropsFromRedux) => {
+const Navbar = ({ accessToken, logoutRequest }: PropsFromRedux) => {
   const navigate = useNavigate();
   const [showMobMenu, setShowMobMenu] = useState(false);
 
@@ -37,7 +37,7 @@ const Navbar = ({ token, logoutRequest }: PropsFromRedux) => {
         {/* mobile or pc menu */}
         <ul className={showMobMenu ? "navbar_menu_mobile" : "navbar_menu_pc"}>
           <NavMenu menuItems={menuItems} />
-          {token ? (
+          {accessToken ? (
             <li className="cursor-pointer" onClick={() => handleLogout()}>
               Logout
             </li>

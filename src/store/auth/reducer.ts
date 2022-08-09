@@ -5,8 +5,8 @@ import { AuthActions } from "./types";
 const auth = localStorage.getItem("auth");
 
 const initialState: AuthState = {
-  user: "",
-  token: auth ? JSON.parse(auth).token : "",
+  user: auth ? JSON.parse(auth).user : {},
+  accessToken: auth ? JSON.parse(auth).accessToken : "",
   isLoading: false,
   error: "",
 };
@@ -23,15 +23,15 @@ const authReducer = (state = initialState, action: AuthActions) => {
         ...state,
         isLoading: false,
         user: action.payload.user,
-        token: action.payload.token,
+        accessToken: action.payload.accessToken,
         error: null,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         isLoading: false,
-        user: "",
-        token: "",
+        user: {},
+        accessToken: "",
         error: action.payload.error,
       };
     case SIGNUP_REQUEST:
@@ -43,23 +43,22 @@ const authReducer = (state = initialState, action: AuthActions) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload.user,
-        token: action.payload.token,
         error: null,
       };
     case SIGNUP_FAILURE:
       return {
         ...state,
         isLoading: false,
-        token: "",
+        user: {},
+        accessToken: "",
         error: action.payload.error,
       };
     case LOGOUT_REQUEST:
       return {
         ...state,
         isLoading: false,
-        user: "",
-        token: "",
+        user: {},
+        accessToken: "",
         error: null,
       };
     default:

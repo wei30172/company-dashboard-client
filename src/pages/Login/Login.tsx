@@ -2,24 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PropsFromRedux, authConnector } from "../../store/auth/connector";
 import { InputWrapper, ButtonWrapper } from "../../components";
-import { AuthPayloadValues } from "../../store/auth/types";
+import { LoginPayloadValues } from "../../store/auth/types";
 import "./Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ErrorIcon from "@material-ui/icons/Error";
 
-const Login = ({ token, isLoading, loginRequest }: PropsFromRedux) => {
+const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
   const navigate = useNavigate();
-  const [userInputs, setUserInputs] = useState<AuthPayloadValues>({
-    firstName: "",
-    lastName: "",
+  const [userInputs, setUserInputs] = useState<LoginPayloadValues>({
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   useEffect(() => {
-    if (token) navigate("/");
-  }, [token, navigate]);
+    if (accessToken) navigate("/");
+  }, [accessToken, navigate]);
 
   const formInputs = [
     {
@@ -48,16 +45,17 @@ const Login = ({ token, isLoading, loginRequest }: PropsFromRedux) => {
 
   const callback = (res: IAuth) => {
     const auth: IAuth = {
-      result: {
-        name: res.result.name,
-        email: res.result.email,
+      user: {
+        name: res.user.name,
+        role: res.user.role,
+        email: res.user.email,
       },
-      token: res.token,
+      accessToken: res.accessToken,
     };
     localStorage.setItem("auth", JSON.stringify(auth));
   };
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     loginRequest({ values: userInputs, callback });
   };
@@ -80,7 +78,7 @@ const Login = ({ token, isLoading, loginRequest }: PropsFromRedux) => {
             <div key={id} className="form-input">
               <label>{label}</label>
               <br />
-              <InputWrapper {...inputProps} name={name} value={userInputs[name as keyof AuthPayloadValues]} handleChange={handleChange} />
+              <InputWrapper {...inputProps} name={name} value={userInputs[name as keyof LoginPayloadValues]} handleChange={handleChange} />
               <p data-testid={`error-${name}`}>
                 <ErrorIcon />
                 {errorMessage}

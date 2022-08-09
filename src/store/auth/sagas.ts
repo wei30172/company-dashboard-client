@@ -1,17 +1,17 @@
-import { login, signup } from "../../api/authAPI";
+import { login, register } from "../../api/auth";
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import { loginSuccess, loginFailure, signupSuccess, signupFailure } from "./actions";
 import { LOGIN_REQUEST, SIGNUP_REQUEST } from "./actionTypes";
-import { AuthPayloadValues } from "./types";
+import { SignupPayloadValues, LoginPayloadValues } from "./types";
 import { toast } from "react-hot-toast";
 
-const userLogin = async (payload: { values: AuthPayloadValues; callback: () => void }) => {
+const userLogin = async (payload: { values: LoginPayloadValues; callback: () => void }) => {
   const res = await login(payload.values);
   return res;
 };
 
-const userSignup = async (payload: { values: AuthPayloadValues; callback: () => void }) => {
-  const res = await signup(payload.values);
+const userSignup = async (payload: { values: SignupPayloadValues; callback: () => void }) => {
+  const res = await register(payload.values);
   return res;
 };
 
@@ -22,8 +22,12 @@ function* loginSaga(action: any) {
       toast.success("Login Successfully!"),
       put(
         loginSuccess({
-          user: res.result.email,
-          token: res.token,
+          user: {
+            name: res.user.name,
+            email: res.user.email,
+            role: res.user.role,
+          },
+          accessToken: res.accessToken,
         }),
       ),
     ]);
@@ -45,17 +49,9 @@ function* loginSaga(action: any) {
 
 function* signupSaga(action: any) {
   try {
-    const res: IAuth = yield call(userSignup, action.payload);
+    const res: IUser = yield call(userSignup, action.payload);
 
-    yield all([
-      toast.success("Signup Successfully!"),
-      put(
-        signupSuccess({
-          user: res.result.email,
-          token: res.token,
-        }),
-      ),
-    ]);
+    yield all([toast.success("Signup Successfully! Please Login."), put(signupSuccess())]);
 
     action.payload.callback(res);
   } catch (err: unknown) {
