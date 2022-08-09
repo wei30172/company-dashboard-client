@@ -2,7 +2,6 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUC
 
 import {
   SignupPayload,
-  SignupSuccessPayload,
   SignupFailurePayload,
   SignupRequest,
   SignupSuccess,
@@ -36,9 +35,8 @@ export const signupRequest = (payload: SignupPayload): SignupRequest => ({
   payload,
 });
 
-export const signupSuccess = (payload: SignupSuccessPayload): SignupSuccess => ({
+export const signupSuccess = (): SignupSuccess => ({
   type: SIGNUP_SUCCESS,
-  payload,
 });
 
 export const signupFailure = (payload: SignupFailurePayload): SignupFailure => ({

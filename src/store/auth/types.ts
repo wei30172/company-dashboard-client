@@ -13,10 +13,6 @@ export interface SignupPayload {
   callback: any;
 }
 
-export interface SignupSuccessPayload {
-  user: string;
-}
-
 export interface SignupFailurePayload {
   error: string;
 }
@@ -28,7 +24,6 @@ export interface SignupRequest {
 
 export interface SignupSuccess {
   type: typeof SIGNUP_SUCCESS;
-  payload: SignupSuccessPayload;
 }
 
 export interface SignupFailure {
