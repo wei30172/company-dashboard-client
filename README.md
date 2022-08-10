@@ -4,6 +4,12 @@ A dashboard client template, built with React, TypeScript, and Sass.
 
 ## Project Screenshots
 
+## Test email & password
+
+ADMIN testtest@testnet.co.us / test1234!\
+EDITOR testemail@testnet.co.us / test1234!\
+USER test@testnet.co.us / test1234!
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

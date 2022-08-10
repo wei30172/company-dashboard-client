@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PropsFromRedux, authConnector } from "../../store/auth/connector";
 import { InputWrapper, ButtonWrapper } from "../../components";
 import { LoginPayloadValues } from "../../store/auth/types";
@@ -7,16 +7,21 @@ import "./Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ErrorIcon from "@material-ui/icons/Error";
 
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}
+
 const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = (location.state as LocationState) || {};
+  const pathname = from?.pathname ? from.pathname : "/";
   const [userInputs, setUserInputs] = useState<LoginPayloadValues>({
     email: "",
     password: "",
   });
-
-  useEffect(() => {
-    if (accessToken) navigate("/");
-  }, [accessToken, navigate]);
 
   const formInputs = [
     {
@@ -53,6 +58,7 @@ const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
       accessToken: res.accessToken,
     };
     localStorage.setItem("auth", JSON.stringify(auth));
+    navigate(pathname, { replace: true });
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -68,6 +74,10 @@ const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
   return isLoading ? (
     <div className="page-flex">
       <HourglassEmptyIcon />
+    </div>
+  ) : accessToken ? (
+    <div className="page-flex">
+      <h1>You are logged in.</h1>
     </div>
   ) : (
     <div className="login">

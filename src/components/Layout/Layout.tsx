@@ -1,11 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar, Footer } from "../index";
-import "./Content.scss";
 
-const Content = () => {
+const Layout = () => {
   return (
-    <div className="content">
+    <div className="layout">
       <Navbar />
       <Outlet />
       <Footer />
@@ -13,4 +12,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default Layout;

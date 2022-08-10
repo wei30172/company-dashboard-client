@@ -7,7 +7,7 @@ import { SwitchMode, NavMenu } from "../index";
 import logo from "../../assets/logo.svg";
 import "./Navbar.scss";
 
-const Navbar = ({ accessToken, logoutRequest }: PropsFromRedux) => {
+const Navbar = ({ user, accessToken, logoutRequest }: PropsFromRedux) => {
   const navigate = useNavigate();
   const [showMobMenu, setShowMobMenu] = useState(false);
 
@@ -17,8 +17,16 @@ const Navbar = ({ accessToken, logoutRequest }: PropsFromRedux) => {
       href: "/home",
     },
     {
-      name: "About",
-      href: "/about",
+      name: "Lounge",
+      href: "/lounge",
+    },
+    {
+      name: "Editor",
+      href: "/editor",
+    },
+    {
+      name: "Admin",
+      href: "/admin",
     },
   ];
 
@@ -36,6 +44,7 @@ const Navbar = ({ accessToken, logoutRequest }: PropsFromRedux) => {
       <div className="navbar_menu flex">
         {/* mobile or pc menu */}
         <ul className={showMobMenu ? "navbar_menu_mobile" : "navbar_menu_pc"}>
+          {accessToken ? <li>Welcome, {user.name}!</li> : <li>Welcome, User.</li>}
           <NavMenu menuItems={menuItems} />
           {accessToken ? (
             <li className="cursor-pointer" onClick={() => handleLogout()}>

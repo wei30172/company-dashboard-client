@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PropsFromRedux, authConnector } from "../../store/auth/connector";
 import { InputWrapper, ButtonWrapper } from "../../components";
@@ -16,10 +16,6 @@ const Signup = ({ accessToken, isLoading, signupRequest }: PropsFromRedux) => {
     password: "",
     confirmPassword: "",
   });
-
-  useEffect(() => {
-    if (accessToken) navigate("/");
-  }, [accessToken, navigate]);
 
   const formInputs = [
     {
@@ -92,6 +88,10 @@ const Signup = ({ accessToken, isLoading, signupRequest }: PropsFromRedux) => {
   return isLoading ? (
     <div className="page-flex">
       <HourglassEmptyIcon />
+    </div>
+  ) : accessToken ? (
+    <div className="page-flex">
+      <h1>You are logged in.</h1>
     </div>
   ) : (
     <div className="signup">
