@@ -7,8 +7,8 @@ interface AuthState {
 }
 
 interface IUser {
-  name: string;
   role: string;
+  name: string;
   email: string;
 }
 

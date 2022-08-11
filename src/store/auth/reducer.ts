@@ -1,4 +1,15 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST } from "./actionTypes";
+import {
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+  REFRESHTOKEN_REQUEST,
+  REFRESHTOKEN_SUCCESS,
+  REFRESHTOKEN_FAILURE,
+} from "./actionTypes";
 
 import { AuthActions } from "./types";
 
@@ -13,6 +24,25 @@ const initialState: AuthState = {
 
 const authReducer = (state = initialState, action: AuthActions) => {
   switch (action.type) {
+    case SIGNUP_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+      };
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        user: {},
+        accessToken: "",
+        error: action.payload.error,
+      };
     case LOGIN_REQUEST:
       return {
         ...state,
@@ -34,24 +64,22 @@ const authReducer = (state = initialState, action: AuthActions) => {
         accessToken: "",
         error: action.payload.error,
       };
-    case SIGNUP_REQUEST:
+    case REFRESHTOKEN_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case SIGNUP_SUCCESS:
+    case REFRESHTOKEN_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        accessToken: action.payload.accessToken,
         error: null,
       };
-    case SIGNUP_FAILURE:
+    case REFRESHTOKEN_FAILURE:
       return {
         ...state,
         isLoading: false,
-        user: {},
-        accessToken: "",
-        error: action.payload.error,
       };
     case LOGOUT_REQUEST:
       return {

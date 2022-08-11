@@ -1,14 +1,20 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { PropsFromRedux, authConnector } from "../../store/auth/connector";
+import { useAuthContext } from "../../contexts/AuthContext";
 
-interface Props extends PropsFromRedux {
+interface Props {
   allowedRoles: string[];
 }
 
-const RequireAuth = ({ allowedRoles, user }: Props) => {
-  const role = user.role;
+const RequireAuth = ({ allowedRoles }: Props) => {
+  const { auth } = useAuthContext();
   const location = useLocation();
-  return allowedRoles?.includes(role) ? <Outlet /> : role ? <Navigate to="/unauthorized" state={{ from: location }} replace /> : <Navigate to="/login" state={{ from: location }} replace />;
+  return allowedRoles?.includes(auth.user.role) ? (
+    <Outlet />
+  ) : auth.user.role ? (
+    <Navigate to="/unauthorized" state={{ from: location }} replace />
+  ) : (
+    <Navigate to="/login" state={{ from: location }} replace />
+  );
 };
 
-export default authConnector(RequireAuth);
+export default RequireAuth;

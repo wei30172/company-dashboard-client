@@ -1,5 +1,5 @@
-import axios from "axios";
-import { SignupPayloadValues, LoginPayloadValues } from "../store/auth/types";
+import axios, { axiosPrivate } from "./axios";
+import { SignupPayloadValues, LoginPayloadValues } from "../types/Auth.type";
 
 // validate auth
 export const validate = async () => {
@@ -9,30 +9,26 @@ export const validate = async () => {
 
 // user register
 export const register = async (payload: SignupPayloadValues) => {
-  const { data } = await axios.post(`auth/register`, JSON.stringify(payload), {
-    headers: { "Content-Type": "application/json" },
-    withCredentials: true,
-  });
+  const { data } = await axiosPrivate.post(`/auth/register`, JSON.stringify(payload));
   return data;
 };
 
 // user login
 export const login = async (payload: LoginPayloadValues) => {
-  const { data } = await axios.post(`auth/login`, JSON.stringify(payload), {
-    headers: { "Content-Type": "application/json" },
-    withCredentials: true,
-  });
+  const { data } = await axiosPrivate.post(`/auth/login`, JSON.stringify(payload));
   return data;
 };
 
 // user logout
 export const logout = async () => {
-  const { data } = await axios.get(`auth/logout`);
+  const { data } = await axios.get(`/auth/logout`);
   return data;
 };
 
 // refresh token
 export const refreshToken = async () => {
-  const { data } = await axios.get(`auth/refreshToken`);
+  const { data } = await axios.get(`/auth/refreshToken`, {
+    withCredentials: true,
+  });
   return data;
 };

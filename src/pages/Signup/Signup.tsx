@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PropsFromRedux, authConnector } from "../../store/auth/connector";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { InputWrapper, ButtonWrapper } from "../../components";
-import { SignupPayloadValues } from "../../store/auth/types";
+import { SignupPayloadValues } from "../../types/Auth.type";
 import "../Login/Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ErrorIcon from "@material-ui/icons/Error";
 
-const Signup = ({ accessToken, isLoading, signupRequest }: PropsFromRedux) => {
+const Signup = () => {
+  const { auth, authLoading, userRegister } = useAuthContext();
+
   const navigate = useNavigate();
+
   const [userInputs, setUserInputs] = useState<SignupPayloadValues>({
     firstName: "",
     lastName: "",
@@ -71,13 +74,17 @@ const Signup = ({ accessToken, isLoading, signupRequest }: PropsFromRedux) => {
     },
   ];
 
-  const callback = (res: IUser) => {
-    navigate("/login");
-  };
-
   const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signupRequest({ values: userInputs, callback });
+    userRegister(userInputs);
+    setUserInputs({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+    navigate("/login");
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -85,11 +92,11 @@ const Signup = ({ accessToken, isLoading, signupRequest }: PropsFromRedux) => {
     setUserInputs({ ...userInputs, [target.name]: target.value });
   };
 
-  return isLoading ? (
+  return authLoading ? (
     <div className="page-flex">
       <HourglassEmptyIcon />
     </div>
-  ) : accessToken ? (
+  ) : auth.accessToken ? (
     <div className="page-flex">
       <h1>You are logged in.</h1>
     </div>
@@ -125,4 +132,4 @@ const Signup = ({ accessToken, isLoading, signupRequest }: PropsFromRedux) => {
   );
 };
 
-export default authConnector(Signup);
+export default Signup;

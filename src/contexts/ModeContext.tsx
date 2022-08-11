@@ -13,10 +13,6 @@ interface Props {
   children: React.ReactNode;
 }
 
-interface Props {
-  children: React.ReactNode;
-}
-
 export const ModeProvider: React.FC<Props> = ({ children }) => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
 

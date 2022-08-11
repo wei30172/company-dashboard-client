@@ -1,5 +1,5 @@
 import { connect, ConnectedProps } from "react-redux";
-import { loginRequest, signupRequest, logoutRequest } from "./actions";
+import { loginRequest, signupRequest, logoutRequest, refreshTokenRequest } from "./actions";
 
 interface StateProps {
   auth: AuthState;
@@ -15,6 +15,7 @@ const mapDispatch = {
   loginRequest,
   signupRequest,
   logoutRequest,
+  refreshTokenRequest,
 };
 
 export const authConnector = connect(mapState, mapDispatch);

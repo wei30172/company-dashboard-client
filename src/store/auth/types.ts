@@ -1,4 +1,15 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST } from "./actionTypes";
+import {
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+  REFRESHTOKEN_REQUEST,
+  REFRESHTOKEN_SUCCESS,
+  REFRESHTOKEN_FAILURE,
+} from "./actionTypes";
 
 export interface SignupPayloadValues {
   firstName: string;
@@ -69,4 +80,31 @@ export interface LogoutRequest {
   type: typeof LOGOUT_REQUEST;
 }
 
-export type AuthActions = SignupRequest | SignupSuccess | SignupFailure | LogoutRequest | LoginRequest | LoginSuccess | LoginFailure;
+export interface RefreshTokenPayload {
+  callback: any;
+}
+
+export interface RefreshTokenSuccessPayload {
+  accessToken: string;
+}
+
+export interface RefreshTokenFailurePayload {
+  error: string;
+}
+
+export interface RefreshTokenRequest {
+  type: typeof REFRESHTOKEN_REQUEST;
+  payload: RefreshTokenPayload;
+}
+
+export interface RefreshTokenSuccess {
+  type: typeof REFRESHTOKEN_SUCCESS;
+  payload: RefreshTokenSuccessPayload;
+}
+
+export interface RefreshTokenFailure {
+  type: typeof REFRESHTOKEN_FAILURE;
+  payload: RefreshTokenFailurePayload;
+}
+
+export type AuthActions = SignupRequest | SignupSuccess | SignupFailure | LoginRequest | LoginSuccess | LoginFailure | LogoutRequest | RefreshTokenRequest | RefreshTokenSuccess | RefreshTokenFailure;

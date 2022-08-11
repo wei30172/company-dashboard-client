@@ -5,4 +5,5 @@ export { default as Unauthorized } from "./Unauthorized/Unauthorized";
 export { default as Lounge } from "./Lounge/Lounge";
 export { default as Editor } from "./Editor/Editor";
 export { default as Admin } from "./Admin/Admin";
+export { default as Users } from "./Users/Users";
 export { default as Missing } from "./Missing/Missing";

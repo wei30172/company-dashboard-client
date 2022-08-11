@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { PropsFromRedux, authConnector } from "../../store/auth/connector";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { InputWrapper, ButtonWrapper } from "../../components";
-import { LoginPayloadValues } from "../../store/auth/types";
+import { LoginPayloadValues } from "../../types/Auth.type";
 import "./Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -13,11 +13,15 @@ interface LocationState {
   };
 }
 
-const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
+const Login = () => {
+  const { auth, authLoading, userLogin } = useAuthContext();
+
   const navigate = useNavigate();
+
   const location = useLocation();
   const { from } = (location.state as LocationState) || {};
   const pathname = from?.pathname ? from.pathname : "/";
+
   const [userInputs, setUserInputs] = useState<LoginPayloadValues>({
     email: "",
     password: "",
@@ -48,22 +52,14 @@ const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
     },
   ];
 
-  const callback = (res: IAuth) => {
-    const auth: IAuth = {
-      user: {
-        name: res.user.name,
-        role: res.user.role,
-        email: res.user.email,
-      },
-      accessToken: res.accessToken,
-    };
-    localStorage.setItem("auth", JSON.stringify(auth));
-    navigate(pathname, { replace: true });
-  };
-
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginRequest({ values: userInputs, callback });
+    userLogin(userInputs);
+    setUserInputs({
+      email: "",
+      password: "",
+    });
+    navigate(`${pathname}`, { replace: true });
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -71,11 +67,11 @@ const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
     setUserInputs({ ...userInputs, [target.name]: target.value });
   };
 
-  return isLoading ? (
+  return authLoading ? (
     <div className="page-flex">
       <HourglassEmptyIcon />
     </div>
-  ) : accessToken ? (
+  ) : auth.accessToken ? (
     <div className="page-flex">
       <h1>You are logged in.</h1>
     </div>
@@ -106,4 +102,4 @@ const Login = ({ accessToken, isLoading, loginRequest }: PropsFromRedux) => {
   );
 };
 
-export default authConnector(Login);
+export default Login;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Home, Unauthorized, Login, Signup, Editor, Admin, Lounge, Missing } from "./pages";
+import { Home, Unauthorized, Login, Signup, Editor, Admin, Users, Lounge, Missing } from "./pages";
 import { Layout, RequireAuth } from "./components";
 
 export enum ROLES {
@@ -29,6 +29,9 @@ const MainRoutes = () => {
         </Route>
         <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
           <Route path="admin" element={<Admin />} />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+          <Route path="users" element={<Users />} />
         </Route>
 
         {/* catch all */}
