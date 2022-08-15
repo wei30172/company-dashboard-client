@@ -45,14 +45,14 @@ const Navbar = () => {
       <div className="navbar_menu flex">
         {/* mobile or pc menu */}
         <ul className={showMobMenu ? "navbar_menu_mobile" : "navbar_menu_pc"}>
-          {auth.accessToken ? <li>{`[${auth.user.role}]-${auth.user.name}`}</li> : <li>Welcome, User.</li>}
+          {auth.accessToken ? <li className="flex">{`[${auth.user.role}]-${auth.user.name}`}</li> : <li className="flex">Welcome, User.</li>}
           <NavMenu menuItems={menuItems} />
           {auth.accessToken ? (
-            <li className="cursor-pointer" onClick={userLogout}>
+            <li className="cursor-pointer flex" onClick={userLogout}>
               Logout
             </li>
           ) : (
-            <li className="cursor-pointer" onClick={() => navigate("/login")}>
+            <li className="cursor-pointer flex" onClick={() => navigate("/login")}>
               Login
             </li>
           )}

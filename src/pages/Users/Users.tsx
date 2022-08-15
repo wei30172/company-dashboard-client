@@ -18,7 +18,12 @@ const Users = () => {
         const { data } = await axiosPrivate.get(`/users/get`, {
           signal: controller.signal,
         });
-        isMounted && setUsers(data.users);
+
+        const usersData = data.users.map((user: IUser) => {
+          const { role, name, email } = user;
+          return { role, name, email };
+        });
+        isMounted && setUsers(usersData);
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "CanceledError") return;
         console.error(err);
@@ -40,8 +45,8 @@ const Users = () => {
         <h1>Users List</h1>
         {users.length ? (
           <ul>
-            {users.map((user, i) => (
-              <li key={i}>
+            {users.map((user) => (
+              <li key={user.email}>
                 【{user.role}】{user.name}
               </li>
             ))}
