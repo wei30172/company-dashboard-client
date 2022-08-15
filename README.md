@@ -3,9 +3,9 @@
 A dashboard client template, built with React, TypeScript, and Sass.
 
 ## Project Screenshots
+![image](https://user-images.githubusercontent.com/60259324/184569919-78844f73-286f-4c5a-8fee-7b71ad5cc229.png)
 
 ## Test email & password
-
 ADMIN testtest@testnet.co.us / test1234!\
 EDITOR testemail@testnet.co.us / test1234!\
 USER test@testnet.co.us / test1234!
