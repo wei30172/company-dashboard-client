@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
+import useLocalStorage from "../../hooks/useLocalStorage";
+
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { auth, persist, refresUserhToken } = useAuthContext();
+  const { auth, refresUserhToken } = useAuthContext();
+  const [persist] = useLocalStorage("persist", false);
 
   useEffect(() => {
     let isMounted = true;
@@ -26,10 +29,10 @@ const PersistLogin = () => {
     };
   }, [auth?.accessToken, persist, refresUserhToken, setIsLoading]);
 
-  useEffect(() => {
-    console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${auth?.accessToken}`);
-  }, [auth?.accessToken, isLoading]);
+  // useEffect(() => {
+  //   console.log(`isLoading: ${isLoading}`);
+  //   console.log(`aT: ${auth?.accessToken}`);
+  // }, [auth?.accessToken, isLoading]);
 
   return (
     <>

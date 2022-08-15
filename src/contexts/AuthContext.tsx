@@ -8,8 +8,8 @@ interface AuthContextProps {
   authLoading: boolean;
   auth: IAuth;
   setAuth: Dispatch<SetStateAction<IAuth>>;
-  persist: boolean;
-  setPersist: Dispatch<SetStateAction<boolean>>;
+  // persist: boolean;
+  // setPersist: Dispatch<SetStateAction<boolean>>;
   userLogin: (values: LoginPayloadValues) => Promise<void>;
   userRegister: (values: SignupPayloadValues) => Promise<void>;
   refresUserhToken: () => Promise<string | undefined>;
@@ -33,8 +33,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const [authLoading, setAuthLoading] = useState(false);
   const [auth, setAuth] = useState<IAuth>({ user: {} as IUser, accessToken: "" });
-  const persistStorage = localStorage.getItem("persist");
-  const [persist, setPersist] = useState<boolean>(persistStorage ? JSON.parse(persistStorage) : false);
+  // const persistStorage = localStorage.getItem("persist");
+  // const [persist, setPersist] = useState<boolean>(persistStorage ? JSON.parse(persistStorage) : false);
 
   const userLogout = async () => {
     setAuth({ user: {} as IUser, accessToken: "" });
@@ -97,8 +97,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         authLoading,
         auth,
         setAuth,
-        persist,
-        setPersist,
+        // persist,
+        // setPersist,
         userLogin,
         userRegister,
         refresUserhToken,

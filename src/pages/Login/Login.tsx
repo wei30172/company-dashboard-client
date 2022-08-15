@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { InputWrapper, ButtonWrapper } from "../../components";
+import useToggle from "../../hooks/useToggle";
 import { LoginPayloadValues } from "../../types/Auth.type";
 import "./Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
@@ -14,7 +15,7 @@ interface LocationState {
 }
 
 const Login = () => {
-  const { auth, authLoading, persist, setPersist, userLogin } = useAuthContext();
+  const { auth, authLoading, userLogin } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -26,6 +27,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const [check, toggleCheck] = useToggle<boolean>("persist", false);
 
   const formInputs = [
     {
@@ -71,13 +74,13 @@ const Login = () => {
     setUserInputs({ ...userInputs, [target.name]: target.value });
   };
 
-  const togglePersist = () => {
-    setPersist((prev) => !prev);
-  };
+  // const togglePersist = () => {
+  //   setPersist((prev) => !prev);
+  // };
 
-  useEffect(() => {
-    localStorage.setItem("persist", JSON.stringify(persist));
-  }, [persist]);
+  // useEffect(() => {
+  //   localStorage.setItem("persist", JSON.stringify(persist));
+  // }, [persist]);
 
   return authLoading ? (
     <div className="page-flex">
@@ -105,7 +108,7 @@ const Login = () => {
           ))}
           <ButtonWrapper disabled={!userInputs.email || !userInputs.password} className="btn" type="submit" title="LOGIN" />
           <div className="login_form_persist-check">
-            <input type="checkbox" id="persist" onChange={togglePersist} checked={persist} />
+            <input type="checkbox" id="persist" onChange={toggleCheck} checked={check} />
             <label htmlFor="persist">Trust This Device</label>
           </div>
         </form>
