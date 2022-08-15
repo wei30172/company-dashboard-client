@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Home, Unauthorized, Login, Signup, Editor, Admin, Users, Lounge, Missing } from "./pages";
-import { Layout, RequireAuth } from "./components";
+import { Layout, RequireAuth, PersistLogin } from "./components";
 
 export enum ROLES {
   ADMIN = "ADMIN",
@@ -21,17 +21,19 @@ const MainRoutes = () => {
         <Route path="unauthorized" element={<Unauthorized />} />
 
         {/* protected routes */}
-        <Route element={<RequireAuth allowedRoles={[ROLES.USER, ROLES.EDITOR, ROLES.ADMIN]} />}>
-          <Route path="lounge" element={<Lounge />} />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[ROLES.EDITOR, ROLES.ADMIN]} />}>
-          <Route path="editor" element={<Editor />} />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-          <Route path="admin" element={<Admin />} />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-          <Route path="users" element={<Users />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRoles={[ROLES.USER, ROLES.EDITOR, ROLES.ADMIN]} />}>
+            <Route path="lounge" element={<Lounge />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[ROLES.EDITOR, ROLES.ADMIN]} />}>
+            <Route path="editor" element={<Editor />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+            <Route path="admin" element={<Admin />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+            <Route path="users" element={<Users />} />
+          </Route>
         </Route>
 
         {/* catch all */}

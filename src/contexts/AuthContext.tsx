@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { login, register, refreshToken } from "../api/auth";
+import { login, register, refreshToken, logout } from "../api/auth";
 import { SignupPayloadValues, LoginPayloadValues } from "../types/Auth.type";
 import { toast } from "react-hot-toast";
 
@@ -8,9 +8,11 @@ interface AuthContextProps {
   authLoading: boolean;
   auth: IAuth;
   setAuth: Dispatch<SetStateAction<IAuth>>;
+  persist: boolean;
+  setPersist: Dispatch<SetStateAction<boolean>>;
   userLogin: (values: LoginPayloadValues) => Promise<void>;
   userRegister: (values: SignupPayloadValues) => Promise<void>;
-  userRefreshToken: () => Promise<string | undefined>;
+  refresUserhToken: () => Promise<string | undefined>;
   userLogout: () => void;
 }
 
@@ -31,27 +33,34 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const [authLoading, setAuthLoading] = useState(false);
   const [auth, setAuth] = useState<IAuth>({ user: {} as IUser, accessToken: "" });
+  const persistStorage = localStorage.getItem("persist");
+  const [persist, setPersist] = useState<boolean>(persistStorage ? JSON.parse(persistStorage) : false);
 
-  const userLogout = () => {
+  const userLogout = async () => {
     setAuth({ user: {} as IUser, accessToken: "" });
+    try {
+      await logout();
+    } catch (err) {
+      console.error(err);
+    }
     navigate("/");
   };
 
   const userRegister = async (values: SignupPayloadValues) => {
+    setAuthLoading(true);
     try {
-      setAuthLoading(true);
       await register(values);
-      setAuthLoading(false);
       toast.success("Register Successfully!");
     } catch (error) {
-      setAuthLoading(false);
       toast.error("Register Failure.");
+    } finally {
+      setAuthLoading(false);
     }
   };
 
   const userLogin = async (values: LoginPayloadValues) => {
+    setAuthLoading(true);
     try {
-      setAuthLoading(true);
       const res: IAuth = await login(values);
       const { role, name, email } = res?.user;
       const accessToken = res?.accessToken;
@@ -60,26 +69,24 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         accessToken,
       };
       setAuth(newAuth);
-      setAuthLoading(false);
       toast.success("Login Successfully!");
     } catch (error) {
-      setAuthLoading(false);
       toast.error("Login Failure.");
+    } finally {
+      setAuthLoading(false);
     }
   };
 
-  const userRefreshToken = async () => {
+  const refresUserhToken = async () => {
     try {
-      setAuthLoading(true);
-      const res: { accessToken: string } = await refreshToken();
+      const res: { user: IUser; accessToken: string } = await refreshToken();
       setAuth({
         ...auth,
+        user: res.user,
         accessToken: res.accessToken,
       });
-      setAuthLoading(false);
       return res.accessToken;
     } catch (error) {
-      setAuthLoading(false);
       console.error(error);
     }
   };
@@ -90,9 +97,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         authLoading,
         auth,
         setAuth,
+        persist,
+        setPersist,
         userLogin,
         userRegister,
-        userRefreshToken,
+        refresUserhToken,
         userLogout,
       }}>
       {children}

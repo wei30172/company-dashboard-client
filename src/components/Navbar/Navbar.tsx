@@ -48,7 +48,7 @@ const Navbar = () => {
           {auth.accessToken ? <li>{`[${auth.user.role}]-${auth.user.name}`}</li> : <li>Welcome, User.</li>}
           <NavMenu menuItems={menuItems} />
           {auth.accessToken ? (
-            <li className="cursor-pointer" onClick={() => userLogout()}>
+            <li className="cursor-pointer" onClick={userLogout}>
               Logout
             </li>
           ) : (

@@ -14,7 +14,7 @@ const userLogin = async (payload: { values: LoginPayloadValues; callback: () => 
   return res;
 };
 
-const userRefreshToken = async () => {
+const refresUserhToken = async () => {
   const res = await refreshToken();
   return res;
 };
@@ -72,7 +72,7 @@ function* loginSaga(action: any) {
 
 function* refreshTokenSaga(action: any) {
   try {
-    const res: { accessToken: string } = yield call(userRefreshToken);
+    const res: { accessToken: string } = yield call(refresUserhToken);
     yield all([
       put(
         refreshTokenSuccess({

@@ -21,7 +21,9 @@ export const login = async (payload: LoginPayloadValues) => {
 
 // user logout
 export const logout = async () => {
-  const { data } = await axios.get(`/auth/logout`);
+  const { data } = await axios.get(`/auth/logout`, {
+    withCredentials: true,
+  });
   return data;
 };
 

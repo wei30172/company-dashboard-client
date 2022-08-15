@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { InputWrapper, ButtonWrapper } from "../../components";
@@ -14,7 +14,7 @@ interface LocationState {
 }
 
 const Login = () => {
-  const { auth, authLoading, userLogin } = useAuthContext();
+  const { auth, authLoading, persist, setPersist, userLogin } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -52,6 +52,10 @@ const Login = () => {
     },
   ];
 
+  useEffect(() => {
+    if (auth.accessToken) navigate(`${pathname}`, { replace: true });
+  }, [auth.accessToken, pathname, navigate]);
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     userLogin(userInputs);
@@ -66,6 +70,14 @@ const Login = () => {
     const target = e.target as HTMLInputElement;
     setUserInputs({ ...userInputs, [target.name]: target.value });
   };
+
+  const togglePersist = () => {
+    setPersist((prev) => !prev);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("persist", JSON.stringify(persist));
+  }, [persist]);
 
   return authLoading ? (
     <div className="page-flex">
@@ -92,6 +104,10 @@ const Login = () => {
             </div>
           ))}
           <ButtonWrapper disabled={!userInputs.email || !userInputs.password} className="btn" type="submit" title="LOGIN" />
+          <div className="login_form_persist-check">
+            <input type="checkbox" id="persist" onChange={togglePersist} checked={persist} />
+            <label htmlFor="persist">Trust This Device</label>
+          </div>
         </form>
         <div className="login_form_link flex">
           <p>Do not have an account?</p>

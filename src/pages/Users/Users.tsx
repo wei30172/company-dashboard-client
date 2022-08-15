@@ -36,12 +36,14 @@ const Users = () => {
 
   return (
     <main className="users page-flex">
-      <h1>Users List</h1>
       <article>
+        <h1>Users List</h1>
         {users.length ? (
           <ul>
             {users.map((user, i) => (
-              <li key={i}>{user?.name}</li>
+              <li key={i}>
+                【{user.role}】{user.name}
+              </li>
             ))}
           </ul>
         ) : (
