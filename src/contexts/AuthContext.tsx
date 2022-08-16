@@ -40,10 +40,10 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setAuth({ user: {} as IUser, accessToken: "" });
     try {
       await logout();
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
-    navigate("/");
   };
 
   const userRegister = async (values: SignupPayloadValues) => {
