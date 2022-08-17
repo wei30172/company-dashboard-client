@@ -1,11 +1,4 @@
 // Auth
-interface AuthState {
-  user: IUser;
-  accessToken: string;
-  isLoading: boolean;
-  error: string;
-}
-
 interface IUser {
   role: string;
   name: string;
@@ -13,6 +6,11 @@ interface IUser {
 }
 
 interface IAuth {
+  user: IUser;
+  accessToken: string;
+}
+
+interface AuthState {
   user: IUser;
   accessToken: string;
 }

@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuthContext } from "../../contexts/AuthContext";
+// import { useAuthContext } from "../../contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../../features/auth/authSlice";
+import { useUserLoginMutation } from "../../services/authApiSlice";
+import { selectCurrentToken } from "../../features/auth/authSlice";
+
 import { InputWrapper, ButtonWrapper } from "../../components";
 import useToggle from "../../hooks/useToggle";
 import { LoginPayloadValues } from "../../types/Auth.type";
 import "./Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ErrorIcon from "@material-ui/icons/Error";
+import { toast } from "react-hot-toast";
 
 interface LocationState {
   from: {
@@ -15,7 +21,10 @@ interface LocationState {
 }
 
 const Login = () => {
-  const { auth, authLoading, userLogin } = useAuthContext();
+  // const { auth, authLoading, userLogin } = useAuthContext();
+  const [userLogin, { isLoading }] = useUserLoginMutation();
+  const dispatch = useDispatch();
+  const token: string = useSelector(selectCurrentToken);
 
   const navigate = useNavigate();
 
@@ -56,17 +65,24 @@ const Login = () => {
   ];
 
   useEffect(() => {
-    if (auth.accessToken) navigate(`${pathname}`, { replace: true });
-  }, [auth.accessToken, pathname, navigate]);
+    if (token) navigate(`${pathname}`, { replace: true });
+  }, [token, pathname, navigate]);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    userLogin(userInputs);
-    setUserInputs({
-      email: "",
-      password: "",
-    });
-    navigate(`${pathname}`, { replace: true });
+    // userLogin(userInputs);
+    try {
+      const userData = await userLogin(userInputs).unwrap();
+      dispatch(setCredentials({ ...userData }));
+      setUserInputs({
+        email: "",
+        password: "",
+      });
+      navigate(`${pathname}`, { replace: true });
+      toast.success("Login Successfully!");
+    } catch (error) {
+      toast.error("Login Failure.");
+    }
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -74,21 +90,9 @@ const Login = () => {
     setUserInputs({ ...userInputs, [target.name]: target.value });
   };
 
-  // const togglePersist = () => {
-  //   setPersist((prev) => !prev);
-  // };
-
-  // useEffect(() => {
-  //   localStorage.setItem("persist", JSON.stringify(persist));
-  // }, [persist]);
-
-  return authLoading ? (
+  return isLoading ? (
     <div className="page-flex">
       <HourglassEmptyIcon />
-    </div>
-  ) : auth.accessToken ? (
-    <div className="page-flex">
-      <h1>You are logged in.</h1>
     </div>
   ) : (
     <div className="login">

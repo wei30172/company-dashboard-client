@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../contexts/AuthContext";
+// import { useAuthContext } from "../../contexts/AuthContext";
+import { useSelector } from "react-redux";
+import { useUserRegisterMutation } from "../../services/authApiSlice";
+import { selectCurrentToken } from "../../features/auth/authSlice";
+
 import { InputWrapper, ButtonWrapper } from "../../components";
 import { SignupPayloadValues } from "../../types/Auth.type";
 import "../Login/Login.scss";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ErrorIcon from "@material-ui/icons/Error";
+import { toast } from "react-hot-toast";
 
 const Signup = () => {
-  const { auth, authLoading, userRegister } = useAuthContext();
+  // const { auth, authLoading, userRegister } = useAuthContext();
+  const [userRegister, { isLoading }] = useUserRegisterMutation();
+  const token: string = useSelector(selectCurrentToken);
 
   const navigate = useNavigate();
 
@@ -74,17 +81,24 @@ const Signup = () => {
     },
   ];
 
-  const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    userRegister(userInputs);
-    setUserInputs({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
-    navigate("/login");
+    // userRegister(userInputs);
+
+    try {
+      await userRegister(userInputs).unwrap();
+      setUserInputs({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      navigate("/login");
+      toast.success("Register Successfully, please Login.");
+    } catch (error) {
+      toast.error("Register Failure.");
+    }
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -92,11 +106,11 @@ const Signup = () => {
     setUserInputs({ ...userInputs, [target.name]: target.value });
   };
 
-  return authLoading ? (
+  return isLoading ? (
     <div className="page-flex">
       <HourglassEmptyIcon />
     </div>
-  ) : auth.accessToken ? (
+  ) : token ? (
     <div className="page-flex">
       <h1>You are logged in.</h1>
     </div>
